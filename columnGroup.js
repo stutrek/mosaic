@@ -1,19 +1,19 @@
 bam.define('columnGroup', function(require, exports) {
 	
-	function ColumnGroup( groupArray ) {
+	function ColumnGroup( columns ) {
 		this.wastedAreas = [];
 		this.wastedArea = 0;
 		this.top = 0;
-		this.left = groupArray[0].left;
-		this.columns = groupArray;
+		this.left = columns[0].left;
+		this.columns = columns;
 
 		var that = this;
 
-		groupArray.forEach(function(column) {
+		columns.forEach(function(column) {
 			that.top = Math.max( that.top, column.top );
 		});
 
-		groupArray.forEach(function(column) {
+		columns.forEach(function(column) {
 			if( column.top < that.top ) {
 				var wastedArea = {
 					top: column.top,
@@ -28,7 +28,7 @@ bam.define('columnGroup', function(require, exports) {
 		});
 	}
 
-	exports.beget = function( groupArray ) {
-		return new ColumnGroup( groupArray );
+	exports.beget = function( columns ) {
+		return new ColumnGroup( columns );
 	}
 });

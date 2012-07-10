@@ -10,7 +10,6 @@ bam.define('mosaic', ["./tile", "./column", "./columnGroup"], function(require, 
 		this.columnWidth = columnWidth;
 		this.columns = [];
 		this.tiles = [];
-
 	}
 
 	Mosaic.prototype.init = function() {
