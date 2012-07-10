@@ -1,8 +1,9 @@
-bam.define('mosaic', ["./tile", "./column", "./columnGroup"], function(require, exports) {
+bam.define('mosaic', ["./tile", "./column", "./columnGroup", "./locationSelectors"], function(require, exports) {
 
 	var tile = require("./tile");
 	var columns = require("./column");
 	var begetColumnGroup = require("./columnGroup").beget;
+	var locationSelectors = require("./locationSelectors");
 
 	function Mosaic( container, columnWidth ) {
 		this.container = container;
@@ -41,15 +42,7 @@ bam.define('mosaic', ["./tile", "./column", "./columnGroup"], function(require, 
 		return potentialLocations;
 	};
 
-	Mosaic.prototype.selectLocation = function( locations ) {
-		var bestLocation = locations[0];
-		locations.forEach(function(location) {
-			if (location.top < bestLocation.top) {
-				bestLocation = location;
-			}
-		});
-		return bestLocation;
-	};
+	Mosaic.prototype.selectLocation = locationSelectors.top;
 
 	Mosaic.prototype.tile = function() {
 		var that = this;
@@ -66,8 +59,12 @@ bam.define('mosaic', ["./tile", "./column", "./columnGroup"], function(require, 
 
 	}
 
-	exports.beget = function(container, columnWidth) {
-		return new Mosaic(container, columnWidth);
+	exports.beget = function(container, columnWidth, locationSelector) {
+		var mosaic = new Mosaic(container, columnWidth);
+		if (locationSelector) {
+			mosaic.selectLocation = locationSelectors[locationSelector];
+		}
+		return mosaic;
 	};
 
 });
