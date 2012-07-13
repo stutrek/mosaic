@@ -1,9 +1,9 @@
-bam.define('mosaic', ["./tile", "./column", "./columnGroup", "./locationSelectors"], function(require, exports) {
+bam.define('mosaic', function(require, exports) {
 
-	var tile = require("./tile");
-	var columns = require("./column");
-	var begetColumnGroup = require("./columnGroup").beget;
-	var locationSelectors = require("./locationSelectors");
+	var tile = require("/cutfour/scripts/mosaic/tile");
+	var columns = require("/cutfour/scripts/mosaic/column");
+	var begetColumnGroup = require("/cutfour/scripts/mosaic/columnGroup").beget;
+	var locationSelectors = require("/cutfour/scripts/mosaic/locationSelectors");
 
 	function Mosaic( container, columnWidth ) {
 		this.container = container;

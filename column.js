@@ -1,7 +1,6 @@
 bam.define('column', function(require, exports) {
 
 	function MosaicColumn( width, left ) {
-
 		this.left = left;
 		this.width = width;
 		this.tiles = [];

@@ -32,4 +32,8 @@ bam.define('locationSelectors', function(require, exports) {
 		return bestLocation;
 	};
 
+	exports.jitteredTop = function( locations ) {
+		
+	}
+
 });

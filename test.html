@@ -9,12 +9,13 @@
 
 	<script src="/shared/scripts/bam/required.js"></script>
 	<script>
+
 		function getRandomInt (min, max) {
 		    return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 		$(document).ready(function(){
-			bam.require([{mosaic: "./mosaic"}]).then(function(require) {
-				var begetMosaic = require("./mosaic").beget;
+			bam.require([{mosaic: "/cutfour/scripts/mosaic/mosaic"}], function(require) {
+				var begetMosaic = require("/cutfour/scripts/mosaic/mosaic").beget;
 				
 				var container = document.getElementById('mosaiccontainer');
 				var html = '';
@@ -28,14 +29,20 @@
 				var mosaic = begetMosaic(container, 100, 'top');
 				mosaic.init();
 				console.log(mosaic);
-				console.time('mosaic');
-				mosaic.tile();
-				console.timeEnd('mosaic');
-				$(document).on('click', function() {
+
+				function tile() {
+					console.time('mosaic');
+					mosaic.tile();
+					console.timeEnd('mosaic');
+					$(document).one('click', mason);
+				}
+				function mason() {
 					console.time('masonry');
 					$(container).masonry({columnWidth:100});
 					console.timeEnd('masonry');
-				});
+					$(document).one('click', tile);
+				}
+				mason();
 			});
 		});
 	</script>
