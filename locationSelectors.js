@@ -11,8 +11,8 @@ define('locationSelectors', function(require, exports, module) {
 	}
 	
 	selectors.weighted = function( jitter ) {
-		var wastedAreaJitter = jitter * jitter * 0.25;
-		var maxDistanceFromMinTop = jitter * 5;
+		var wastedAreaJitter = jitter * jitter * 0.1;
+		var maxDistanceFromMinTop = jitter * 3;
 		var topSelector = selectors.top(jitter);
 		return function wastedArea( locations ) {
 			
@@ -27,7 +27,6 @@ define('locationSelectors', function(require, exports, module) {
 			if (filteredLocations.length === 0) {
 				filteredLocations = locations;
 			}
-			console.log(currentWastedAreaJitter, locations.length, filteredLocations.length, locations.map(function(l){return l.wastedArea}).toString());
 			
 			return topSelector(filteredLocations);
 		}
