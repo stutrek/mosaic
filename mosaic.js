@@ -41,7 +41,7 @@ define('mosaic', function(require, exports, module) {
 		return potentialLocations;
 	};
 
-	Mosaic.prototype.selectLocation = locationSelectors.top;
+	Mosaic.prototype.locationSelector = locationSelectors.beget('top', 0);
 
 	Mosaic.prototype.tile = function() {
 		var that = this;
@@ -49,7 +49,7 @@ define('mosaic', function(require, exports, module) {
 
 		this.tiles.forEach(function(tile) {
 			var potentialLocations = that.getPotentialLocationsForTile(tile);
-			var bestLocation = that.selectLocation(potentialLocations);
+			var bestLocation = that.locationSelector(potentialLocations);
 			bestLocation.columns.forEach(function(column) {
 				column.placeTile( tile, bestLocation.top );
 			});
@@ -57,6 +57,14 @@ define('mosaic', function(require, exports, module) {
 		});
 
 	}
+	
+	Mosaic.prototype.jitter = 0;
+	
+	Mosaic.prototype.setLocationSelector = function( type, jitter ) {
+		this.jitter = jitter;
+		this.locationSelector = locationSelectors.beget( type, jitter );
+		return this.locationSelector;
+	};
 
 	exports.beget = function(container, columnWidth, locationSelector) {
 		var mosaic = new Mosaic(container, columnWidth);

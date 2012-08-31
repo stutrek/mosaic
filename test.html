@@ -10,18 +10,23 @@
 			float: left;
 			padding: 5px;
 			border: 5px solid white;
+			font-family: sans-serif;
+			font-size: 30px;
+			line-height: 36px;
+			color: rgba(0,0,0,0.4);
+			border-radius: 10px;
 		}
 		.box.wide1 {
 			width: 80px;
-			background-color: red;
+			background-color: #f99;
 		}
 		.box.wide2 {
 			width: 180px;
-			background-color: yellow;
+			background-color: #ff6;
 		}
 		.box.wide3 {
 			width: 280px;
-			background-color: blue
+			background-color: #6af
 		}
 
 		.box.high1 {
@@ -33,17 +38,29 @@
 		.box.high3 {
 			height: 280px;
 		}
+		
+		#feedback {
+			position: absolute;
+			right: 0;
+			top: 0;
+			padding: 10px;
+			background-color: white;
+		}
 	</style>
 </head>
 <body>
 <div id="mosaiccontainer">
 </div>
+<div id="feedback"></div>
 </body>
 <script src="lib/require.js"></script>
 <script type="text/javascript">
 
 	function getRandomInt (min, max) {
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	function feedback( str ) {
+		document.getElementById('feedback').innerHTML = str;
 	}
 	require(['mosaic'], function(mosaicModule) {
 		var begetMosaic = mosaicModule.beget;
@@ -52,15 +69,32 @@
 		var html = '';
 		for( var i = 0; i < 500; i += 1 ) {
 			var num = getRandomInt(1,3);
-			var num2 = getRandomInt(1,3);
-			html += '<div class="box wide'+num+' high'+num2+'">'+(i+1)+'</div>';
+			var num2 = getRandomInt(128,320);
+			html += '<div class="box wide'+num+'" style="height:'+num2+'px">'+(i+1)+'</div>';
 		}
 		container.innerHTML = html;
-
+		
+		
 		var mosaic = begetMosaic(container, 100, 'top');
+		var jitteredTop = mosaic.setLocationSelector( 'top', 100 );
+		var normalTop = mosaic.setLocationSelector( 'top', 0 );
 		mosaic.init();
+		mosaic.locationSelector = jitteredTop;
 		console.log(mosaic);
 		mosaic.tile();
+		
+		document.addEventListener('click', function() {
+			if (mosaic.locationSelector === jitteredTop) {
+				mosaic.locationSelector = normalTop;
+				feedback('top');
+			} else {
+				mosaic.locationSelector = jitteredTop;
+				feedback('jittered');
+			}
+			mosaic.tile();
+		}, false);
+		
+		
 	});
 </script>
 </html>
