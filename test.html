@@ -72,14 +72,14 @@
 		for( var i = 0; i < 500; i += 1 ) {
 			var num = getRandomInt(1,3);
 			var num2 = getRandomInt(128,320);
-			html += '<div class="box wide'+num+'" style="height:'+num2+'px">'+(i+1)+'</div>';
+			html += '<div class="box wide'+num+' high'+num+'" style="hei ght:'+num2+'px">'+(i+1)+'</div>';
 		}
 		container.innerHTML = html;
 		
 		
 		var mosaic = begetMosaic(container, 100, 'top');
 		var normalTop = mosaic.setLocationSelector( 'top', 0 );
-		var experimentalTop = mosaic.setLocationSelector( 'weighted', 100 );
+		var experimentalTop = mosaic.setLocationSelector( 'top', 100 );
 		feedback('experimental');
 		
 		mosaic.init();
