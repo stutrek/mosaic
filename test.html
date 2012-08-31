@@ -40,7 +40,7 @@
 		}
 		
 		#feedback {
-			position: absolute;
+			position: fixed;
 			right: 0;
 			top: 0;
 			padding: 10px;
@@ -60,7 +60,9 @@
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 	function feedback( str ) {
-		document.getElementById('feedback').innerHTML = str;
+		setTimeout(function() {
+			document.getElementById('feedback').innerHTML = str + ' '+document.body.scrollHeight+'px';
+		}, 0);
 	}
 	require(['mosaic'], function(mosaicModule) {
 		var begetMosaic = mosaicModule.beget;
@@ -76,20 +78,20 @@
 		
 		
 		var mosaic = begetMosaic(container, 100, 'top');
-		var jitteredTop = mosaic.setLocationSelector( 'top', 100 );
 		var normalTop = mosaic.setLocationSelector( 'top', 0 );
+		var experimentalTop = mosaic.setLocationSelector( 'weighted', 100 );
+		feedback('experimental');
+		
 		mosaic.init();
-		mosaic.locationSelector = jitteredTop;
-		console.log(mosaic);
 		mosaic.tile();
 		
 		document.addEventListener('click', function() {
-			if (mosaic.locationSelector === jitteredTop) {
+			if (mosaic.locationSelector === experimentalTop) {
 				mosaic.locationSelector = normalTop;
 				feedback('top');
 			} else {
-				mosaic.locationSelector = jitteredTop;
-				feedback('jittered');
+				mosaic.locationSelector = experimentalTop;
+				feedback('experimental');
 			}
 			mosaic.tile();
 		}, false);
