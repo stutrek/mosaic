@@ -1,4 +1,4 @@
-bam.define('locationSelectors', function(require, exports) {
+define('locationSelectors', function(require, exports, module) {
 
 	exports.top = function top( locations ) {
 		var bestLocation = locations[0];

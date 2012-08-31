@@ -1,17 +1,18 @@
-bam.define('tile', function(require, exports) {
+define('tile', function(require, exports, module) {
 	function MosaicTile( domElement ) {
 
 		this.element = domElement;
-		this.$ = $(domElement);
-		this.originalHeight = this.height = this.$.outerHeight();
-		this.originalWidth = this.width = this.$.outerWidth();
+		this.originalHeight = this.height = this.element.offsetHeight;
+		this.originalWidth = this.width = this.element.offsetWidth;
 
 		this.originalHeightCss = domElement.style.height || '';
 		this.originalWidthCss = domElement.style.width || '';
 		this.originalPositionCss = domElement.style.position || '';
+		
+		var computedStyle = window.getComputedStyle(this.element);
 
-		this.vPadding = this.height - this.$.height();
-		this.hPadding = this.width - this.$.width();
+		this.vPadding = this.height - parseInt( computedStyle.height, 10 );
+		this.hPadding = this.width - parseInt( computedStyle.width, 10 );
 	}
 
 	MosaicTile.prototype.stretch = function( newHeight, newWidth ) {

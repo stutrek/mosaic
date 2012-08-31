@@ -1,4 +1,4 @@
-bam.define('column', function(require, exports) {
+define('column', function(require, exports, module) {
 
 	function MosaicColumn( width, left ) {
 		this.left = left;

@@ -1,20 +1,19 @@
-bam.define('mosaic', function(require, exports) {
+define('mosaic', function(require, exports, module) {
 
-	var tile = require("/cutfour/scripts/mosaic/tile");
-	var columns = require("/cutfour/scripts/mosaic/column");
-	var begetColumnGroup = require("/cutfour/scripts/mosaic/columnGroup").beget;
-	var locationSelectors = require("/cutfour/scripts/mosaic/locationSelectors");
+	var tile = require("tile");
+	var columns = require("column");
+	var begetColumnGroup = require("columnGroup").beget;
+	var locationSelectors = require("locationSelectors");
 
 	function Mosaic( container, columnWidth ) {
 		this.container = container;
-		this.$ = $(container)
 		this.columnWidth = columnWidth;
 		this.columns = [];
 		this.tiles = [];
 	}
 
 	Mosaic.prototype.init = function() {
-		var width = this.$.width();
+		var width = parseInt( window.getComputedStyle(this.container).width, 10 );
 		var columnCount = Math.floor(width / this.columnWidth);
 		this.columns = columns.begetUniformColumns( columnCount, this.columnWidth );
 		var children = Array.prototype.slice.apply(this.container.children);

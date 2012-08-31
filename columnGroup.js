@@ -1,4 +1,4 @@
-bam.define('columnGroup', function(require, exports) {
+define('columnGroup', function(require, exports, module) {
 	
 	function ColumnGroup( columns ) {
 		this.wastedAreas = [];

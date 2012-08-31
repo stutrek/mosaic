@@ -2,50 +2,6 @@
 <html>
 <head>
 	<title></title>
-	<script type="text/javascript" src="/shared/scripts/external/jquery.js"></script>
-	<script type="text/javascript" src="/shared/scripts/bam.js"></script>
-	<script type="text/javascript" src="/shared/scripts/jsloader.min.js"></script>
-	<script type="text/javascript" src="/shared/scripts/external/jquery.masonry.min.js"></script>
-
-	<script src="/shared/scripts/bam/required.js"></script>
-	<script>
-
-		function getRandomInt (min, max) {
-		    return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
-		$(document).ready(function(){
-			bam.require([{mosaic: "/cutfour/scripts/mosaic/mosaic"}], function(require) {
-				var begetMosaic = require("/cutfour/scripts/mosaic/mosaic").beget;
-				
-				var container = document.getElementById('mosaiccontainer');
-				var html = '';
-				for( var i = 0; i < 500; i += 1 ) {
-					var num = getRandomInt(1,3);
-					var num2 = getRandomInt(1,3);
-					html += '<div class="box wide'+num+' high'+num2+'">'+(i+1)+'</div>';
-				}
-				container.innerHTML = html;
-
-				var mosaic = begetMosaic(container, 100, 'top');
-				mosaic.init();
-				console.log(mosaic);
-
-				function tile() {
-					console.time('mosaic');
-					mosaic.tile();
-					console.timeEnd('mosaic');
-					$(document).one('click', mason);
-				}
-				function mason() {
-					console.time('masonry');
-					$(container).masonry({columnWidth:100});
-					console.timeEnd('masonry');
-					$(document).one('click', tile);
-				}
-				mason();
-			});
-		});
-	</script>
 	<style rel="stylesheet">
 		#mosaiccontainer {
 			position: relative;
@@ -83,4 +39,28 @@
 <div id="mosaiccontainer">
 </div>
 </body>
+<script src="lib/require.js"></script>
+<script type="text/javascript">
+
+	function getRandomInt (min, max) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	require(['mosaic'], function(mosaicModule) {
+		var begetMosaic = mosaicModule.beget;
+		
+		var container = document.getElementById('mosaiccontainer');
+		var html = '';
+		for( var i = 0; i < 500; i += 1 ) {
+			var num = getRandomInt(1,3);
+			var num2 = getRandomInt(1,3);
+			html += '<div class="box wide'+num+' high'+num2+'">'+(i+1)+'</div>';
+		}
+		container.innerHTML = html;
+
+		var mosaic = begetMosaic(container, 100, 'top');
+		mosaic.init();
+		console.log(mosaic);
+		mosaic.tile();
+	});
+</script>
 </html>
