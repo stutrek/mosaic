@@ -1,4 +1,4 @@
-define('columnGroup', function(require, exports, module) {
+define(function(require, exports, module) {
 	
 	function ColumnGroup( columns ) {
 		this.wastedAreas = [];

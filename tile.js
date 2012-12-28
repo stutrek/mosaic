@@ -1,4 +1,4 @@
-define('tile', function(require, exports, module) {
+define(function(require, exports, module) {
 	function MosaicTile( domElement ) {
 
 		this.element = domElement;

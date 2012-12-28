@@ -1,9 +1,9 @@
-define('mosaic', function(require, exports, module) {
+define(function(require, exports, module) {
 
-	var tile = require("tile");
-	var columns = require("column");
-	var begetColumnGroup = require("columnGroup").beget;
-	var locationSelectors = require("locationSelectors");
+	var tile = require("./tile");
+	var columns = require("./column");
+	var begetColumnGroup = require(./"columnGroup").beget;
+	var locationSelectors = require("./locationSelectors");
 
 	function Mosaic( container, columnWidth ) {
 		this.container = container;
@@ -59,11 +59,21 @@ define('mosaic', function(require, exports, module) {
 				});
 			}
 		});
-		if (bestArea.height < Infinity) {
-			return { area: bestArea, column: chosenColumn };
+		if (chosenColumn) {
+			tile.place( bestArea.top, chosenColumn.left );
+			chosenColumn.placeTileInWastedArea( tile, bestArea );
+			return true;
 		} else {
 			return false;
 		}
+	};
+	Mosaic.prototype.placeTileAtBottom = function( tile ) {
+		var potentialLocations = this.getBottomLocationsForTile(tile);
+		var bestLocation = this.locationSelector(potentialLocations);
+		bestLocation.columns.forEach(function(column) {
+			column.placeTile( tile, bestLocation.top );
+		});
+		tile.place( bestLocation.top, bestLocation.left );
 	};
 
 	Mosaic.prototype.locationSelector = locationSelectors.beget('top', 0);
@@ -73,21 +83,15 @@ define('mosaic', function(require, exports, module) {
 		this.columns.forEach(function(column){ column.reset() });
 
 		this.tiles.forEach(function(tile) {
-			// try to place this tile in a wasted spot
-			var chosenAreaAndColumn = that.findWastedPlaceForTile( tile );
-			if (chosenAreaAndColumn) {
-				tile.place( chosenAreaAndColumn.area.top, chosenAreaAndColumn.column.left );
-				chosenAreaAndColumn.column.placeTileInWastedArea( tile, chosenAreaAndColumn.area );
-				return;
+			if (that.useWastedSpace) {
+				// try to place this tile in a wasted spot
+				var itFitInWastedSpace = that.findWastedPlaceForTile( tile );
+				if (itFitInWastedSpace) {
+					return;
+				}
 			}
-			
 			// place tile at the bottom
-			var potentialLocations = that.getBottomLocationsForTile(tile);
-			var bestLocation = that.locationSelector(potentialLocations);
-			bestLocation.columns.forEach(function(column) {
-				column.placeTile( tile, bestLocation.top );
-			});
-			tile.place( bestLocation.top, bestLocation.left );
+			that.placeTileAtBottom( tile );
 		});
 
 	}

@@ -1,4 +1,4 @@
-define('column', function(require, exports, module) {
+define(function(require, exports, module) {
 
 	function MosaicColumn( width, left ) {
 		this.left = left;
@@ -45,6 +45,7 @@ define('column', function(require, exports, module) {
 
 	MosaicColumn.prototype.reset = function() {
 		this.tiles.length = 0;
+		this.wastedAreas.length = 0;
 		this.top = 0;
 	}
 

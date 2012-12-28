@@ -78,8 +78,9 @@
 		
 		
 		var mosaic = begetMosaic(container, 100, 'top');
-		var normalTop = mosaic.setLocationSelector( 'top', 0 );
+		var normalTop = mosaic.setLocationSelector( 'top', 100 );
 		var experimentalTop = mosaic.setLocationSelector( 'top', 100 );
+		mosaic.useWastedSpace = true;
 		feedback('experimental');
 		
 		mosaic.init();
@@ -87,10 +88,12 @@
 		
 		document.addEventListener('click', function() {
 			if (mosaic.locationSelector === experimentalTop) {
+				mosaic.useWastedSpace = false;
 				mosaic.locationSelector = normalTop;
 				feedback('top');
 			} else {
 				mosaic.locationSelector = experimentalTop;
+				mosaic.useWastedSpace = true;
 				feedback('experimental');
 			}
 			mosaic.tile();
