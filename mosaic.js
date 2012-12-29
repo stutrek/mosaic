@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
 	var tile = require("./tile");
 	var columns = require("./column");
-	var begetColumnGroup = require(./"columnGroup").beget;
+	var begetColumnGroup = require("./columnGroup").beget;
 	var locationSelectors = require("./locationSelectors");
 
 	function Mosaic( container, columnWidth ) {
